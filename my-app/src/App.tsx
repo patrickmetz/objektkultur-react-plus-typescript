@@ -1,24 +1,40 @@
+/* eslint-disable @typescript-eslint/ban-types */
+
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+interface Heading {
+  content: string
+}
+
+interface User {
+  firstName: string,
+  lastName: string,
+}
+
+class UserComponent extends React.Component<User, {}> {
+  constructor(props: User) {
+    super(props);
+  }
+
+  render(): JSX.Element {
+    return (
+      <div>
+        Hello, {this.props.firstName}  {this.props.lastName}
+      </div>
+    );
+  }
+}
+
+function HeadingComponent(props: Heading): JSX.Element {
+  return <h1>{props.content}</h1>;
+}
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <HeadingComponent content="Welcome" />
+      <UserComponent firstName="Patrick" lastName="Metz" />
     </div>
   );
 }
