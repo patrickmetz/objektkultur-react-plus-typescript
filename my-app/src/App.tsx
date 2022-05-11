@@ -8,38 +8,44 @@ interface Heading {
 }
 
 interface User {
-  firstName: string,
-  lastName: string,
+  name: string
 }
 
-class UserChanger extends React.Component<User, {}>{
+type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
+interface FormProps {
+  onChange: (event: InputEvent) => void;
 }
 
-class UserComponent extends React.Component<User, {}> { // second generic type is for state
-  constructor(props: User) {
-    super(props);
+// first generic type is for props, second one is for state
+class App extends React.Component<{}, User> {
+  state = {
+    name: 'Stranger'
   }
 
   render(): JSX.Element {
     return (
-      <div>
-        Hello, {this.props.firstName}  {this.props.lastName}
+      <div className="App">
+        <HeadingComponent content="Welcome" />
+        <UserComponent name={this.state.name} />
+        <FormComponent onChange={this.handleChange} />
       </div>
     );
   }
+
+  // need arrow function, to correctly reference "this"
+  handleChange = (event: InputEvent) => {
+    this.setState({ name: event.currentTarget.value });
+  }
 }
+
+const UserComponent: React.FunctionComponent<User> = (props) =>
+  <h2>Hello, {props.name}</h2>
 
 const HeadingComponent: React.FunctionComponent<Heading> = (props) =>
-  <span>{props.content}</span>
+  <h1>{props.content}</h1>
 
-function App(): JSX.Element {
-  return (
-    <div className="App">
-      <HeadingComponent content="Welcome" />
-      <UserComponent firstName="Patrick" lastName="Metz" />
-    </div>
-  );
-}
+const FormComponent: React.FunctionComponent<FormProps> = (props) =>
+  <div>Name: <input onChange={(event) => { props.onChange(event) }} /></div>;
 
 export default App;
