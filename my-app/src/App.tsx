@@ -12,7 +12,11 @@ interface User {
   lastName: string,
 }
 
-class UserComponent extends React.Component<User, {}> {
+class UserChanger extends React.Component<User, {}>{
+
+}
+
+class UserComponent extends React.Component<User, {}> { // second generic type is for state
   constructor(props: User) {
     super(props);
   }
@@ -26,11 +30,10 @@ class UserComponent extends React.Component<User, {}> {
   }
 }
 
-function HeadingComponent(props: Heading): JSX.Element {
-  return <h1>{props.content}</h1>;
-}
+const HeadingComponent: React.FunctionComponent<Heading> = (props) =>
+  <span>{props.content}</span>
 
-function App() {
+function App(): JSX.Element {
   return (
     <div className="App">
       <HeadingComponent content="Welcome" />
